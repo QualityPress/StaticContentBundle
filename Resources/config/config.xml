@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    
+    <services>
+        <service id="qp.static_content.entity_manager" factory-service="doctrine" factory-method="getEntityManager" class="Doctrine\ORM\EntityManager" public="false">
+            <argument>%quality_press_static_content.manager%</argument>
+        </service>
+        
+        <service id="qp.static_content.content_manager" class="%quality_press_static_content.content_manager.class%">
+            <argument type="service" id="qp.static_content.entity_manager" />
+            <argument>%quality_press_static_content.content.class%</argument>
+        </service>
+        
+        <service id="qp.static_content.context_manager" class="%quality_press_static_content.context_manager.class%">
+            <argument>%quality_press_static_content.context.class%</argument>
+            <argument>%quality_press_static_content.contexts%</argument>
+        </service>
+        
+        <service id="qp.static_content.data_manipulator" class="QualityPress\Bundle\StaticContentBundle\Manipulator\DataManipulator">
+            <argument type="service" id="qp.static_content.content_manager" />
+            <argument type="service" id="qp.static_content.context_manager" />
+            <argument>%quality_press_static_content.contents%</argument>
+        </service>
+    </services>
+
+</container>
