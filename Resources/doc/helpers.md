@@ -7,13 +7,9 @@ List of twig functions to help on twig template:
 
 
 
-1.  [qp_content_render_content][1]
+1.  [qp_content_render_content](#content-render)
 
-[1]: <#content-render>
-
-1.  [qp_content_render_context][2]
-
-[2]: <#context-render>
+2.  [qp_content_render_context](#context-render)
 
 
 
