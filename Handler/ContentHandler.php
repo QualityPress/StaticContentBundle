@@ -28,7 +28,7 @@ class ContentHandler implements ContentHandlerInterface
     {
         $contentManager = $this->contentManager;
         foreach ($contentManager->findAll() as $content) {
-            $this->contents[$content->getIdent()] = $content;
+            $this->contents[$content->getIdentity()] = $content;
         }
     }
 

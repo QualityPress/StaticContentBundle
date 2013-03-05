@@ -2,6 +2,8 @@
 
 namespace QualityPress\Bundle\StaticContentBundle\Handler;
 
+use QualityPress\Bundle\StaticContentBundle\Model\ContextInterface;
+
 /**
  * ContextHandlerInterface
  * 
@@ -11,10 +13,27 @@ namespace QualityPress\Bundle\StaticContentBundle\Handler;
 interface ContextHandlerInterface
 {
     
+    /**
+     * Check existency of context
+     * 
+     * @param string $context
+     * @return boolean
+     */
     function has($context);
     
+    /**
+     * Get context object
+     * 
+     * @param string $context
+     * @return null|ContextInterface
+     */
     function get($context);
     
+    /**
+     * Get array of contexts
+     * 
+     * @return array
+     */
     function getContexts();
     
 }

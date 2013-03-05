@@ -41,7 +41,7 @@ class ContextHandler implements ContextHandlerInterface
         foreach ($contexts as $ident => $config) {
             $class  = $this->getClass();
             $object = new $class;
-            $object->setTemplate($config['view']);
+            $object->setTemplate($config['content_view']);
             $object->setTranslationDomain($config['translation_domain']);
             
             $this->contexts[$ident] = $object;

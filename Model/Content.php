@@ -56,21 +56,20 @@ abstract class Content implements ContentInterface
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTime $createdAt)
-    {
-        $this->createdAt = $createdAt;
-        return $this;
-    }
-
     public function getUpdatedAt()
     {
         return $this->updatedAt;
     }
-
-    public function setUpdatedAt(\DateTime $updatedAt)
+    
+    public function prePersist()
     {
-        $this->updatedAt = $updatedAt;
-        return $this;
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+    }
+    
+    public function preUpdate()
+    {
+        $this->updatedAt = new \DateTime();
     }
     
 }

@@ -4,11 +4,11 @@
            xmlns:doctrine="http://symfony.com/schema/dic/doctrine">
 
     <services>
-        <service id="qp.static_content.event.prepersist" class="QualityPress\Bundle\StaticContentBundle\Listener\ContentListenerListener" public="false">
+        <service id="qp.static_content.event.prepersist" class="QualityPress\Bundle\StaticContentBundle\Listener\ContentListener" public="false">
             <tag name="doctrine.event_listener" event="prePersist" />
         </service>
         
-        <service id="qp.static_content.event.preupdate" class="QualityPress\Bundle\StaticContentBundle\Listener\ContentListenerListener" public="false">
+        <service id="qp.static_content.event.preupdate" class="QualityPress\Bundle\StaticContentBundle\Listener\ContentListener" public="false">
             <tag name="doctrine.event_listener" event="preUpdate" />
         </service>
     </services>

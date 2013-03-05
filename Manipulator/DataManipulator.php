@@ -2,7 +2,7 @@
 
 namespace QualityPress\Bundle\StaticContentBundle\Manipulator;
 
-use QualityPress\Bundle\StaticContentBundle\Manager\ContextManagerInterface;
+use QualityPress\Bundle\StaticContentBundle\Handler\ContextHandlerInterface;
 use QualityPress\Bundle\StaticContentBundle\Manager\ContentManagerInterface;
 
 /**
@@ -14,14 +14,14 @@ use QualityPress\Bundle\StaticContentBundle\Manager\ContentManagerInterface;
 class DataManipulator
 {
     
-    protected $contextManager;
+    protected $contextHandler;
     protected $contentManager;
     protected $contents;
     
-    public function __construct(ContentManagerInterface $contentManager, ContextManagerInterface $contextManager, array $contents)
+    public function __construct(ContentManagerInterface $contentManager, ContextHandlerInterface $contextHandler, array $contents)
     {
         $this->contentManager   = $contentManager;
-        $this->contextManager   = $contextManager;
+        $this->contextHandler   = $contextHandler;
         $this->contents         = $contents;
     }
     
@@ -31,9 +31,9 @@ class DataManipulator
         return $this->build();
     }
     
-    public function getContextManager()
+    public function getContextHandler()
     {
-        return $this->contextManager;
+        return $this->contextHandler;
     }
 
     public function getContentManager()
@@ -41,6 +41,9 @@ class DataManipulator
         return $this->contentManager;
     }
     
+    /**
+     * Truncate database table
+     */
     protected function truncate()
     {        
         $em = $this->getContentManager()->getEntityManager();
@@ -61,13 +64,15 @@ class DataManipulator
         }
     }
     
+    /**
+     * Create items on database
+     * @return int
+     */
     protected function build()
     {
         $builded = 0;
         foreach ($this->contents as $ident => $config) {
-            if ($this->getContextManager()->has($config['context'])) {
-                $context = $this->getContextManager()->get($config['context']);
-                
+            if ($this->getContextHandler()->has($config['context'])) {                
                 $content = $this->getContentManager()->create();
                 $content->setIdentity($ident)->setContext($config['context']);
                 

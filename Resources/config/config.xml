@@ -4,24 +4,41 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     
+    <parameters>
+        <parameter key="quality_press_static_content.renderer.class">QualityPress\Bundle\StaticContentBundle\Templating\ContentRenderer</parameter>
+        <parameter key="quality_press_static_content.manipulator.class">QualityPress\Bundle\StaticContentBundle\Manipulator\DataManipulator</parameter>
+    </parameters>
+    
     <services>
         <service id="qp.static_content.entity_manager" factory-service="doctrine" factory-method="getEntityManager" class="Doctrine\ORM\EntityManager" public="false">
             <argument>%quality_press_static_content.manager%</argument>
         </service>
         
-        <service id="qp.static_content.content_manager" class="%quality_press_static_content.content_manager.class%">
+        <!-- Content Manager (database) -->
+        <service id="qp.static_content.content_manager" class="%quality_press_static_content.content_manager.class%" public="false">
             <argument type="service" id="qp.static_content.entity_manager" />
             <argument>%quality_press_static_content.content.class%</argument>
         </service>
         
-        <service id="qp.static_content.context_manager" class="%quality_press_static_content.context_manager.class%">
+        <!-- Handlers -->
+        <service id="qp.static_content.content_handler" class="%quality_press_static_content.content_handler.class%">
+            <argument type="service" id="qp.static_content.content_manager" />
+        </service>
+        
+        <service id="qp.static_content.context_handler" class="%quality_press_static_content.context_handler.class%">
             <argument>%quality_press_static_content.context.class%</argument>
             <argument>%quality_press_static_content.contexts%</argument>
         </service>
         
-        <service id="qp.static_content.data_manipulator" class="QualityPress\Bundle\StaticContentBundle\Manipulator\DataManipulator">
+        <!-- Renderer -->
+        <service id="qp.static_content.renderer" class="%quality_press_static_content.renderer.class%">
+            <argument type="service" id="templating" />
+        </service>
+        
+        <!-- Database manipulator -->
+        <service id="qp.static_content.data_manipulator" class="%quality_press_static_content.manipulator.class%">
             <argument type="service" id="qp.static_content.content_manager" />
-            <argument type="service" id="qp.static_content.context_manager" />
+            <argument type="service" id="qp.static_content.context_handler" />
             <argument>%quality_press_static_content.contents%</argument>
         </service>
     </services>

@@ -14,22 +14,19 @@ use QualityPress\Bundle\StaticContentBundle\Model\ContentInterface;
 class ContentListener
 {
     
-    public function preUpdate(LifecycleEventArgs $args)
-    {
-        $entity = $args->getEntity();
-        if ($entity instanceof ContentInterface) {
-            $entity->setCreatedAt(new \DateTime('now'));
-        }
-    }
-    
     public function prePersist(LifecycleEventArgs $args)
     {
         $entity = $args->getEntity();
         if ($entity instanceof ContentInterface) {
-            $entity
-                ->setUpdatedAt(new \DateTime('now'))
-                ->setCreatedAt(new \DateTime('now'))
-            ;
+            $entity->prePersist();
+        }
+    }
+    
+    public function preUpdate(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+        if ($entity instanceof ContentInterface) {
+            $entity->preUpdate();
         }
     }
     

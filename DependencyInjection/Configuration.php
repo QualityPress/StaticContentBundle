@@ -33,7 +33,8 @@ class Configuration implements ConfigurationInterface
                         ->scalarNode('content')->cannotBeEmpty()->isRequired()->end()
                         ->scalarNode('context')->defaultValue('QualityPress\Bundle\StaticContentBundle\Model\Context')->end()
                         ->scalarNode('content_manager')->defaultValue('QualityPress\Bundle\StaticContentBundle\Manager\ContentManager')->end()
-                        ->scalarNode('context_manager')->defaultValue('QualityPress\Bundle\StaticContentBundle\Manager\ContextManager')->end()
+                        ->scalarNode('content_handler')->defaultValue('QualityPress\Bundle\StaticContentBundle\Handler\ContentHandler')->end()
+                        ->scalarNode('context_handler')->defaultValue('QualityPress\Bundle\StaticContentBundle\Handler\ContextHandler')->end()
                     ->end()
                 ->end()
                 
