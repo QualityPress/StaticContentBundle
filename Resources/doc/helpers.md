@@ -17,7 +17,7 @@ List of twig functions to help on twig template:
 
 
 
-\<a id='content-render' /\>\</a\>Render content:
+### <a id="content-render"></a>Render content:
 
 Lorem
 
@@ -35,7 +35,7 @@ Ipsum
 
 
 
-\<a id='context-render' /\>\</a\>Render content:
+### <a id="context-render"></a>Render context:
 
 teste
 
