@@ -2,7 +2,7 @@
     "name": "quality-press/static-content-bundle",
     "type": "symfony-bundle",
     "description": "Symfony StaticContentBundle",
-    "keywords": ["static content, content manager, fixed content"],
+    "keywords": ["static content", "content manager", "fixed content"],
     "homepage": "http://www.qualitypress.com.br",
     "license": "MIT",
     "authors": [
@@ -14,7 +14,7 @@
     "minimum-stability": "dev",
     "require": {
         "php": ">=5.3.2",
-        "symfony/framework-bundle": ">=2.1,<2.3-dev"
+        "symfony/framework-bundle": ">=2.1,<2.2.*"
     },
     "require-dev": {},
     "autoload": {
