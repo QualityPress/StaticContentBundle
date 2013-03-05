@@ -13,7 +13,7 @@ List of twig functions to help on twig template:
 
 1.  [qp_content_render_context][2]
 
-[2]: <#context>
+[2]: <#context-render>
 
 
 
