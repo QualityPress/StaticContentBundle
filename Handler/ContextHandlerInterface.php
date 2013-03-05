@@ -1,14 +1,14 @@
 <?php
 
-namespace QualityPress\Bundle\StaticContentBundle\Manager;
+namespace QualityPress\Bundle\StaticContentBundle\Handler;
 
 /**
- * ContextManagerInterface
+ * ContextHandlerInterface
  * 
  * @copyright (c) 2013, Quality Press
  * @author Jorge Vahldick <jvahldick@gmail.com>
  */
-interface ContextManagerInterface
+interface ContextHandlerInterface
 {
     
     function has($context);

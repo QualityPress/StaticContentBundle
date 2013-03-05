@@ -11,9 +11,12 @@ namespace QualityPress\Bundle\StaticContentBundle\Model;
 abstract class Content implements ContentInterface
 {
     
-    protected $body;
     protected $identity;
     protected $context;
+    protected $body;
+    
+    protected $createdAt;
+    protected $updatedAt;
     
     public function getBody()
     {
@@ -45,6 +48,28 @@ abstract class Content implements ContentInterface
     public function setIdentity($identity)
     {
         $this->identity = $identity;
+        return $this;
+    }
+    
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTime $createdAt)
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    public function getUpdatedAt()
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTime $updatedAt)
+    {
+        $this->updatedAt = $updatedAt;
         return $this;
     }
     

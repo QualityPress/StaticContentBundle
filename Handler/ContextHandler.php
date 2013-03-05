@@ -1,14 +1,14 @@
 <?php
 
-namespace QualityPress\Bundle\StaticContentBundle\Manager;
+namespace QualityPress\Bundle\StaticContentBundle\Handler;
 
 /**
- * ContextManager
+ * ContextHandler
  * 
  * @copyright (c) 2013, Quality Press
  * @author Jorge Vahldick <jvahldick@gmail.com>
  */
-class ContextManager implements ContextManagerInterface
+class ContextHandler implements ContextHandlerInterface
 {
     
     protected $class;
@@ -18,7 +18,7 @@ class ContextManager implements ContextManagerInterface
     {
         $this->class = $class;
         $this->contexts = array();
-        $this->mount($contexts);
+        $this->populate($contexts);
     }
     
     public function has($context)
@@ -36,7 +36,7 @@ class ContextManager implements ContextManagerInterface
         return $this->contexts;
     }
     
-    protected function mount($contexts)
+    protected function populate($contexts)
     {
         foreach ($contexts as $ident => $config) {
             $class  = $this->getClass();

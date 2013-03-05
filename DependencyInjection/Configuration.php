@@ -30,7 +30,7 @@ class Configuration implements ConfigurationInterface
                 // Classes definition
                 ->arrayNode('classes')
                     ->children()
-                        ->scalarNode('content')->cannotBeEmpty()->end()
+                        ->scalarNode('content')->cannotBeEmpty()->isRequired()->end()
                         ->scalarNode('context')->defaultValue('QualityPress\Bundle\StaticContentBundle\Model\Context')->end()
                         ->scalarNode('content_manager')->defaultValue('QualityPress\Bundle\StaticContentBundle\Manager\ContentManager')->end()
                         ->scalarNode('context_manager')->defaultValue('QualityPress\Bundle\StaticContentBundle\Manager\ContextManager')->end()
@@ -42,11 +42,12 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('id')
                     ->prototype('array')
                         ->children()
-                            ->scalarNode('default_description')->defaultValue(null)->end()
                             ->scalarNode('translation_domain')->defaultValue(null)->end()
-                            ->scalarNode('content_view')->defaultValue(null)->end()
+                            ->scalarNode('content_view')->isRequired()->end()
                         ->end()
                     ->end()
+                    ->cannotBeEmpty()
+                    ->isRequired()
                 ->end()
                 
                 // Content
@@ -54,10 +55,11 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('id')
                     ->prototype('array')
                         ->children()
-                            ->scalarNode('description')->defaultValue(null)->end()
                             ->scalarNode('context')->defaultValue(null)->end()
                         ->end()
                     ->end()
+                    ->cannotBeEmpty()
+                    ->isRequired()
                 ->end()
             ->end()
         ;
