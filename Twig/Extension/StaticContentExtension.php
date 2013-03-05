@@ -35,6 +35,7 @@ class StaticContentExtension extends Twig_Extension
         return array(
             'qp_get_content'                => new \Twig_Function_Method($this, 'getContent', array("is_safe" => array("html"))),
             'qp_get_contents_by_context'    => new \Twig_Function_Method($this, 'getContentsByContext', array("is_safe" => array("html"))),
+            'qp_get_description_by_context' => new \Twig_Function_Method($this, 'getContextDescription', array("is_safe" => array("html"))),
         );
     }
     
@@ -78,6 +79,11 @@ class StaticContentExtension extends Twig_Extension
         }
         
         return $result;
+    }
+    
+    public function getContextDescription($name)
+    {
+        return ($this->getContextHandler()->has($name)) ? $this->getContextHandler()->get($name)->getDescription() : '';
     }
     
     /**

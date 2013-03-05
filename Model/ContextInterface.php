@@ -41,4 +41,19 @@ interface ContextInterface
      */
     function getTranslationDomain();
     
+    /**
+     * Set description of context
+     * 
+     * @param string $description
+     * return self
+     */
+    function setDescription($description);
+    
+    /**
+     * Get context description
+     * 
+     * @return string
+     */
+    function getDescription();
+    
 }

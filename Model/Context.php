@@ -13,6 +13,7 @@ class Context implements ContextInterface
     
     protected $template;
     protected $translationDomain;
+    protected $description;
 
     public function getTemplate()
     {
@@ -22,6 +23,11 @@ class Context implements ContextInterface
     public function getTranslationDomain()
     {
         return $this->translationDomain;
+    }
+    
+    public function getDescription()
+    {
+        return $this->description;
     }
 
     public function setTemplate($template)
@@ -33,6 +39,12 @@ class Context implements ContextInterface
     public function setTranslationDomain($translationDomain)
     {
         $this->translationDomain = $translationDomain;
+        return $this;
+    }
+    
+    public function setDescription($description)
+    {
+        $this->description = $description;
         return $this;
     }
     
