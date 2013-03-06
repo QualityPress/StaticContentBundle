@@ -70,12 +70,23 @@ class DataManipulator
      */
     protected function build()
     {
+        $em = $this->getContentManager()->getEntityManager();
+        $cmd = $em->getClassMetadata($this->getContentManager()->getClass());
+        
         $builded = 0;
         foreach ($this->contents as $ident => $config) {
             if ($this->getContextHandler()->has($config['context'])) {                
                 $content = $this->getContentManager()->create();
                 $content->setIdentity($ident)->setContext($config['context']);
                 
+                if (isset($config['defaults'])) {
+                    foreach ($config['defaults'] as $method => $value) {
+                        if (true === $cmd->hasField($method)) {
+                            $cmd->setFieldValue($content, $method, $value);
+                        }
+                    }
+                }
+                               
                 $this->getContentManager()->persist($content);
                 $builded++;
             }
