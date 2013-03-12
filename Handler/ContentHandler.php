@@ -15,13 +15,12 @@ class ContentHandler implements ContentHandlerInterface
 
     protected $contentManager;
     protected $contents;
+    protected $ready = false;
 
     public function __construct(ContentManagerInterface $contentManager)
     {
         $this->contentManager = $contentManager;
         $this->contents = array();
-
-        $this->populate();
     }
 
     protected function populate()
@@ -44,19 +43,29 @@ class ContentHandler implements ContentHandlerInterface
 
     public function getContents()
     {
+        if (false === $this->isReady()) {
+            $this->populate();
+            $this->ready = true;
+        }
+            
         return $this->contents;
     }
     
     public function getByContext($context)
     {
         $contents = array();
-        foreach ($this->contents as $content) {
+        foreach ($this->getContents() as $content) {
             if (strtolower($content->getContext()) === strtolower($context)) {
                 $contents[] = $content;
             }
         }
         
         return $contents;
+    }
+    
+    public function isReady()
+    {
+        return $this->ready;
     }
 
 }

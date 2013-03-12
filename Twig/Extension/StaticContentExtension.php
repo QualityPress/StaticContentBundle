@@ -9,6 +9,8 @@ use QualityPress\Bundle\StaticContentBundle\Handler\ContentHandlerInterface;
 use QualityPress\Bundle\StaticContentBundle\Handler\ContextHandlerInterface;
 use QualityPress\Bundle\StaticContentBundle\Exception\ContentNotFoundException;
 
+use QualityPress\Bundle\StaticContentBundle\Model\ContentInterface;
+
 /**
  * StaticContentExtension
  * 
@@ -35,16 +37,31 @@ class StaticContentExtension extends Twig_Extension
         return array(
             'qp_get_content'                => new \Twig_Function_Method($this, 'getContent', array("is_safe" => array("html"))),
             'qp_get_contents_by_context'    => new \Twig_Function_Method($this, 'getContentsByContext', array("is_safe" => array("html"))),
+           
+            'qp_render_content'             => new \Twig_Function_Method($this, 'renderContentsByContext', array("is_safe" => array("html"))),
+            'qp_render_contents_by_context' => new \Twig_Function_Method($this, 'renderContent', array("is_safe" => array("html"))),
+            
             'qp_get_description_by_context' => new \Twig_Function_Method($this, 'getContextDescription', array("is_safe" => array("html"))),
         );
     }
     
+    /**
+     * Extension name
+     * @return string
+     */
     public function getName()
     {
         return 'qp_static_content_extension';
     }
     
-    public function getContent($name, $template = null, $options = array())
+    /**
+     * Get content object
+     * 
+     * @param string $name
+     * @return ContentInterface
+     * @throws ContentNotFoundException
+     */
+    public function getContent($name)
     {
         $contentHandler = $this->getContentHandler();
         $content = $contentHandler->get($name);
@@ -56,7 +73,21 @@ class StaticContentExtension extends Twig_Extension
             ));
         }
         
-        $template = (null === $template) ? $this->getContextHandler()->get($content->getContext())->getTemplate() : $template;
+        return $content;
+    }
+    
+    /**
+     * Get content rendered
+     * 
+     * @param string    $name
+     * @param string    $template
+     * @param array     $options
+     * @return string Rendered content
+     */
+    public function renderContent($name, $template = null, $options = array())
+    {
+        $content    = $this->getContent($name);
+        $template   = (null === $template) ? $this->getContextHandler()->get($content->getContext())->getTemplate() : $template;
         if (false === isset($options['translationDomain'])) {
             $options = array_merge(
                 array('translationDomain' => $this->getContextHandler()->get($content->getContext())->getTranslationDomain()),
@@ -67,20 +98,43 @@ class StaticContentExtension extends Twig_Extension
         return $this->getTemplateRenderer()->render($template, array_merge(array('content' => $content), $options));
     }
     
-    public function getContentsByContext($name, $template = null, $options = array())
+    /**
+     * Render all contents by context name
+     * 
+     * @param string $name
+     * @param string $template
+     * @param array $options
+     * 
+     * @return string
+     */
+    public function renderContentsByContext($name, $template = null, $options = array())
     {
-        $result = '';
-        $contextHandler = $this->getContextHandler();
-        if ($contextHandler->has($name)) {
-            $contents = $this->getContentHandler()->getByContext($name);            
-            foreach ($contents as $content) {
-                $result .= $this->getContent($content->getIdentity(), $template, $options);
-            }
+        $return = '';
+        foreach ($this->getContentsByContext($name) as $content) {
+            $return .= $this->renderContent($content->getIdent(), $template, $options);
         }
         
-        return $result;
+        return $return;
     }
     
+    /**
+     * Get all contents by context name
+     * 
+     * @param string $name
+     * @return mixed array|null
+     */
+    public function getContentsByContext($name)
+    {
+        $contextHandler = $this->getContextHandler();
+        return ($contextHandler->has($name)) ? $this->getContentHandler()->getByContext($name) : array();
+    }
+    
+    /**
+     * Get description of context
+     * 
+     * @param   string $name
+     * @return  string
+     */
     public function getContextDescription($name)
     {
         return ($this->getContextHandler()->has($name)) ? $this->getContextHandler()->get($name)->getDescription() : '';

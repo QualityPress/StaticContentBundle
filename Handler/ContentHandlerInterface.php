@@ -44,4 +44,9 @@ interface ContentHandlerInterface
      */
     function getContents();
     
+    /**
+     * @return boolean
+     */
+    function isReady();
+    
 }
