@@ -38,8 +38,8 @@ class StaticContentExtension extends Twig_Extension
             'qp_get_content'                => new \Twig_Function_Method($this, 'getContent', array("is_safe" => array("html"))),
             'qp_get_contents_by_context'    => new \Twig_Function_Method($this, 'getContentsByContext', array("is_safe" => array("html"))),
            
-            'qp_render_content'             => new \Twig_Function_Method($this, 'renderContentsByContext', array("is_safe" => array("html"))),
-            'qp_render_contents_by_context' => new \Twig_Function_Method($this, 'renderContent', array("is_safe" => array("html"))),
+            'qp_render_content'             => new \Twig_Function_Method($this, 'renderContent', array("is_safe" => array("html"))),
+            'qp_render_contents_by_context' => new \Twig_Function_Method($this, 'renderContentsByContext', array("is_safe" => array("html"))),
             
             'qp_get_description_by_context' => new \Twig_Function_Method($this, 'getContextDescription', array("is_safe" => array("html"))),
         );
