@@ -111,7 +111,7 @@ class StaticContentExtension extends Twig_Extension
     {
         $return = '';
         foreach ($this->getContentsByContext($name) as $content) {
-            $return .= $this->renderContent($content->getIdent(), $template, $options);
+            $return .= $this->renderContent($content->getIdentity(), $template, $options);
         }
         
         return $return;
