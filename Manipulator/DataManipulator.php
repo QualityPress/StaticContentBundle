@@ -80,9 +80,14 @@ class DataManipulator
                 $content->setIdentity($ident)->setContext($config['context']);
                 
                 if (isset($config['defaults'])) {
-                    foreach ($config['defaults'] as $method => $value) {
-                        if (true === $cmd->hasField($method)) {
-                            $cmd->setFieldValue($content, $method, $value);
+                    foreach ($config['defaults'] as $field => $value) {
+                        // Check field as columnName
+                        if (true === in_array($field, $cmd->getColumnNames())) {
+                            $cmd->setFieldValue($content, $cmd->getFieldForColumn($field), $value);
+                        }
+                        // Check field as fieldName
+                        else if (true === in_array($field, $cmd->getFieldNames())) {
+                            $cmd->setFieldValue($content, $field, $value);
                         }
                     }
                 }

@@ -3,6 +3,7 @@
 namespace QualityPress\Bundle\StaticContentBundle\Listener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use QualityPress\Bundle\StaticContentBundle\Model\ContentInterface;
 
 /**
@@ -22,11 +23,14 @@ class ContentListener
         }
     }
     
-    public function preUpdate(LifecycleEventArgs $args)
+    public function preUpdate(PreUpdateEventArgs $args)
     {
         $entity = $args->getEntity();
+        $em     = $args->getEntityManager();
         if ($entity instanceof ContentInterface) {
             $entity->preUpdate();
+            $cm = $em->getClassMetadata(get_class($entity));
+            $em->getUnitOfWork()->recomputeSingleEntityChangeSet($cm, $entity);
         }
     }
     

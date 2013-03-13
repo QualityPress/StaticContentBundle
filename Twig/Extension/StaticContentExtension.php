@@ -8,6 +8,7 @@ use QualityPress\Bundle\StaticContentBundle\Templating\ContentRendererInterface;
 use QualityPress\Bundle\StaticContentBundle\Handler\ContentHandlerInterface;
 use QualityPress\Bundle\StaticContentBundle\Handler\ContextHandlerInterface;
 use QualityPress\Bundle\StaticContentBundle\Exception\ContentNotFoundException;
+use QualityPress\Bundle\StaticContentBundle\Exception\ContextNotFoundException;
 
 use QualityPress\Bundle\StaticContentBundle\Model\ContentInterface;
 
@@ -69,7 +70,7 @@ class StaticContentExtension extends Twig_Extension
         if (null == $content) {
             throw new ContentNotFoundException(sprintf(
                 'The valid contents obtained are:',
-                join(',', array_keys($contentHandler->getContents()))
+                join(', ', array_keys($contentHandler->getContents()))
             ));
         }
         
@@ -87,12 +88,20 @@ class StaticContentExtension extends Twig_Extension
     public function renderContent($name, $template = null, $options = array())
     {
         $content    = $this->getContent($name);
-        $template   = (null === $template) ? $this->getContextHandler()->get($content->getContext())->getTemplate() : $template;
-        if (false === isset($options['translationDomain'])) {
-            $options = array_merge(
-                array('translationDomain' => $this->getContextHandler()->get($content->getContext())->getTranslationDomain()),
-                $options
-            );
+        
+        if ($this->getContextHandler()->has($content->getContext())) {
+            $template   = (null === $template) ? $this->getContextHandler()->get($content->getContext())->getTemplate() : $template;
+            if (false === isset($options['translationDomain'])) {
+                $options = array_merge(
+                    array('translationDomain' => $this->getContextHandler()->get($content->getContext())->getTranslationDomain()),
+                    $options
+                );
+            }
+        } else {
+            throw new ContextNotFoundException(sprintf(
+                'Context was not found. The valid contexts obtained are: %s',
+                join(', ', array_keys($this->getContextHandler()->getContexts()))
+            ));
         }
         
         return $this->getTemplateRenderer()->render($template, array_merge(array('content' => $content), $options));
