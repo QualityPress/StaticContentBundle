@@ -11,5 +11,5 @@ use QualityPress\Bundle\StaticContentBundle\Model\Content as BaseContent;
  * @author Jorge Vahldick <jvahldick@gmail.com>
  */
 class Content extends BaseContent
-{    
+{
 }

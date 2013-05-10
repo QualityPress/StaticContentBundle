@@ -69,7 +69,8 @@ class StaticContentExtension extends Twig_Extension
         
         if (null == $content) {
             throw new ContentNotFoundException(sprintf(
-                'The valid contents obtained are:',
+                'The content "%s" was not found. The valid contents obtained are: %s',
+                $name,
                 join(', ', array_keys($contentHandler->getContents()))
             ));
         }
