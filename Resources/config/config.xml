@@ -10,7 +10,7 @@
     </parameters>
     
     <services>
-        <service id="qp.static_content.entity_manager" factory-service="doctrine" factory-method="getEntityManager" class="Doctrine\ORM\EntityManager" public="false">
+        <service id="qp.static_content.entity_manager" factory-service="doctrine" factory-method="getManager" class="Doctrine\ORM\EntityManager" public="false">
             <argument>%quality_press_static_content.manager%</argument>
         </service>
         
